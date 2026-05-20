@@ -33,7 +33,7 @@ export default function TiersPage() {
 
           <div className="mt-10">
             <ComparisonRow header label="Feature" standard="Standard" apex="Apex" />
-            <ComparisonRow label="Minimum" standard="$500" apex="$5,000" />
+            <ComparisonRow label="Minimum" standard="$499" apex="$1,999" />
             <ComparisonRow label="Chains covered" standard="20+" apex="40+" />
             <ComparisonRow label="Strategy stack" standard="Core" apex="Full" />
             <ComparisonRow label="Weekly Prowl Report" standard="✓" apex="✓" />
