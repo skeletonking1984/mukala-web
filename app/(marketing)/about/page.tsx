@@ -1,5 +1,5 @@
 import { Eyebrow } from "@/components/brand/eyebrow";
-import { CtaSection } from "../page";
+import { CtaSection } from "@/components/ui/cta-section";
 
 export default function AboutPage() {
   return (

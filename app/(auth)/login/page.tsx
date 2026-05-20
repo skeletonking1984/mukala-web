@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase-client";
-import { Field } from "../signup/page";
+import { Field } from "@/components/ui/field";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const search = useSearchParams();
   const redirect = search.get("redirect") || "/dashboard";
@@ -60,5 +60,13 @@ export default function LoginPage() {
         <Link href="/signup" className="text-operator underline hover:text-white">Create account</Link>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="text-white/40">Loading...</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }

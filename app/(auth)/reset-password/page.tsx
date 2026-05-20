@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-client";
-import { Field } from "../signup/page";
+import { Field } from "@/components/ui/field";
 
 export default function ResetPasswordPage() {
   const [email, setEmail] = useState("");

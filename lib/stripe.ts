@@ -7,7 +7,7 @@ import Stripe from "stripe";
  * TODO: Replace placeholder in .env.local with real STRIPE_SECRET_KEY before going live.
  */
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_PLACEHOLDER", {
-  apiVersion: "2024-10-28.acacia",
+  apiVersion: "2025-02-24.acacia",
   typescript: true,
 });
 
