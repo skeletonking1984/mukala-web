@@ -12,7 +12,7 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-[1.3fr_1fr] gap-20 items-center">
             <div>
               <Eyebrow>The prowl is live · May 2026</Eyebrow>
-              <h1 className="text-[clamp(40px,6.5vw,84px)] font-extrabold leading-[0.96] tracking-[-0.035em] mb-7">
+              <h1 className="text-[clamp(36px,9vw,84px)] font-extrabold leading-[1.02] sm:leading-[0.96] tracking-[-0.035em] mb-7 break-words">
                 AI that mines and trades{" "}
                 <em className="font-serif italic font-normal gradient-text not-italic [&]:italic">
                   crypto

@@ -4,7 +4,7 @@
  */
 export function PantherOrb() {
   return (
-    <div className="relative aspect-square max-w-[480px] ml-auto">
+    <div className="relative aspect-square max-w-[480px] w-[80%] mx-auto md:mx-0 md:ml-auto">
       {/* outer dashed ring */}
       <div className="absolute -inset-[50px] border border-dashed border-white/10 rounded-full animate-rotate-slow [animation-duration:50s] [animation-direction:reverse]">
         <div
