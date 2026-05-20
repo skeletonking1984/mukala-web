@@ -10,8 +10,8 @@ export const TIERS = {
   standard: {
     id: "standard",
     name: "Standard",
-    price: 500,
-    priceLabel: "$500",
+    price: 499,
+    priceLabel: "$499",
     priceSuffix: "minimum",
     tagline:
       "The way in. Real product, real AI, real Prowl Reports — for the price of a weekend away.",
@@ -28,8 +28,8 @@ export const TIERS = {
   apex: {
     id: "apex",
     name: "Apex",
-    price: 5000,
-    priceLabel: "$5,000",
+    price: 1999,
+    priceLabel: "$1,999",
     priceSuffix: "minimum",
     tagline:
       "The flagship. Full chain coverage, the higher-tier strategy stack, priority everything.",
