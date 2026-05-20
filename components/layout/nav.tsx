@@ -35,9 +35,17 @@ export function Nav({ user }: { user: { email?: string } | null }) {
               Dashboard
             </Link>
           ) : (
-            <Link href="/signup" className="btn-primary !px-5 !py-2.5 !text-xs">
-              Get Started
-            </Link>
+            <>
+              <Link
+                href="/login"
+                className="text-white/55 hover:text-white text-sm font-medium tracking-wide transition-colors"
+              >
+                Log in
+              </Link>
+              <Link href="/signup" className="btn-primary !px-5 !py-2.5 !text-xs">
+                Get Started
+              </Link>
+            </>
           )}
         </div>
 
@@ -69,9 +77,18 @@ export function Nav({ user }: { user: { email?: string } | null }) {
                 Dashboard
               </Link>
             ) : (
-              <Link href="/signup" className="btn-primary self-start">
-                Get Started
-              </Link>
+              <>
+                <Link
+                  href="/login"
+                  onClick={() => setOpen(false)}
+                  className="text-white/70 hover:text-white text-base font-medium"
+                >
+                  Log in
+                </Link>
+                <Link href="/signup" className="btn-primary self-start">
+                  Get Started
+                </Link>
+              </>
             )}
           </div>
         </div>
