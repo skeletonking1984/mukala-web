@@ -12,11 +12,12 @@ export const TIERS = {
     name: "Standard",
     price: 499,
     priceLabel: "$499",
-    priceSuffix: "minimum",
+    priceSuffix: "one-time",
     tagline:
       "The way in. Real product, real AI, real Prowl Reports — for the price of a weekend away.",
     features: [
       "AI mining + trading across 20+ chains",
+      "Cloud infrastructure included — runs the moment you sign up",  // ← NEW
       "Weekly Prowl Report",
       "Principal protection during lock",
       "Full dashboard access",
@@ -30,11 +31,12 @@ export const TIERS = {
     name: "Apex",
     price: 1999,
     priceLabel: "$1,999",
-    priceSuffix: "minimum",
+    priceSuffix: "one-time",
     tagline:
       "The flagship. Full chain coverage, the higher-tier strategy stack, priority everything.",
     features: [
       "AI mining + trading across all 40+ chains",
+      "Cloud infrastructure included — runs the moment you sign up",  // ← NEW
       "Higher-tier strategy stack",
       "Weekly Prowl Report + monthly deep-dive",
       "Principal protection during lock",

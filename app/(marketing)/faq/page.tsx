@@ -40,6 +40,10 @@ const faqs = [
     q: "Why 'not financial advice' at the bottom?",
     a: "Because we're not licensed to give financial advice yet, and saying we are would be illegal. We know that disclaimer is the whole industry's escape hatch and we don't love it. The destination is a Mukala that can stand behind its calls. That's a long road and we're walking it deliberately.",
   },
+  {
+    q: "Do I need to buy a device or set anything up?",
+    a: "No. The moment you sign up, you're running on Mukala's infrastructure. No hardware, no install, no waiting for a box to ship. The prowl starts within the day. If you ever want a dedicated device of your own, that's an option later — but it's never required.",
+  },
 ];
 
 export default function FaqPage() {
