@@ -10,15 +10,25 @@ export default function SignupPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true);
     setError(null);
 
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters.");
+      return;
+    }
+    if (password !== confirm) {
+      setError("Passwords don't match.");
+      return;
+    }
+
+    setLoading(true);
     const supabase = createClient();
     const { error } = await supabase.auth.signUp({
       email,
@@ -63,7 +73,23 @@ export default function SignupPage() {
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <Field label="Email" type="email" value={email} onChange={setEmail} required />
-        <Field label="Password" type="password" value={password} onChange={setPassword} required minLength={8} hint="At least 8 characters." />
+        <Field
+          label="Password"
+          type="password"
+          value={password}
+          onChange={setPassword}
+          required
+          minLength={8}
+          hint="At least 8 characters."
+        />
+        <Field
+          label="Confirm password"
+          type="password"
+          value={confirm}
+          onChange={setConfirm}
+          required
+          minLength={8}
+        />
 
         {error && (
           <div className="text-sm text-red-300 bg-red-500/10 border border-red-500/30 px-4 py-3 rounded-xl">
