@@ -24,8 +24,16 @@ export default async function DashboardPage() {
 
 
   //API call here
-  
   const pk = sub?.product_key;
+  useEffect(() => {
+  fetch("https://mukalatech.com/api.php?action=getBalance")
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        setProfiles(data.data);
+      }
+    });
+  }, []);
 
   if (!hasActive) {
     return (
@@ -72,7 +80,17 @@ export default async function DashboardPage() {
 
       {/* Stats grid */}
       <div className="grid md:grid-cols-3 gap-4 mb-10">
-        <StatCard label="Total earned" value="—" sub="Awaiting first cycle" />
+        return (
+          <div>
+            {profiles.map(p => (
+              <StatCard
+                key={p.user}
+                value={p.balance}
+                sub={p.profile_data}
+              />
+            ))}
+          </div>
+        );
         <StatCard label="Chains active" value={tier === "apex" ? "40+" : "20+"} sub="Live and prowling" />
         <StatCard label="This week" value="—" sub="Report drops Monday" />
       </div>
