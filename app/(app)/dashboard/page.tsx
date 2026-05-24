@@ -22,6 +22,11 @@ export default async function DashboardPage() {
     ? Math.max(0, Math.ceil((lockEnds.getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
     : null;
 
+
+  //API call here
+  
+  const pk = sub?.product_key;
+
   if (!hasActive) {
     return (
       <div className="max-w-[1240px] mx-auto px-8 py-20">
@@ -51,7 +56,7 @@ export default async function DashboardPage() {
             Active Tier
           </div>
           <h1 className="text-4xl font-bold tracking-tight">
-            {tier === "apex" ? "Apex" : "Standard"} prowl
+            {tier === "apex" ? "Apex" : "Standard"} prowl (PK = {pk})
           </h1>
         </div>
         <div className="text-right">
