@@ -11,7 +11,7 @@ export function BalanceCard({ productKey }: { productKey: string }) {
   useEffect(() => {
     let cancelled = false;
 
-    fetch(`https://mukalatech.com/api/php?action=getBalance&product_key=${encodeURIComponent(productKey)}`)
+    fetch(`https://mukalatech.com/api.php?action=getBalance&product_key=${encodeURIComponent(productKey)}`)
       .then(res => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
@@ -21,9 +21,10 @@ export function BalanceCard({ productKey }: { productKey: string }) {
         setBalance(data.balance ?? "—");
         setStatus("ready");
       })
-      .catch(() => {
+      .catch((ex) => {
         if (cancelled) return;
         setStatus("error");
+        console.log(ex);
       });
 
     return () => { cancelled = true; };
