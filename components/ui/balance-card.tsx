@@ -4,11 +4,6 @@ import { useEffect, useState } from "react";
 
 type Status = "loading" | "ready" | "not_found" | "error";
 
-type BalanceResponse = {
-  success: boolean;
-  data: Array<{ user: string; balance: string }>;
-};
-
 export function BalanceCard({ productKey }: { productKey: string }) {
   const [balance, setBalance] = useState<string>("—");
   const [status, setStatus] = useState<Status>("loading");
@@ -16,25 +11,15 @@ export function BalanceCard({ productKey }: { productKey: string }) {
   useEffect(() => {
     let cancelled = false;
 
-    fetch(`https://mukalatech.com/api/php?action=getBalance`)
-      .then(res => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json() as Promise<BalanceResponse>;
-      })
+    fetch("/api/balance")
+      .then(res => res.json())
       .then(data => {
         if (cancelled) return;
-        if (!data.success || !Array.isArray(data.data)) {
-          setStatus("error");
+        if (data.balance === null) {
+          setStatus(data.reason === "not_found" ? "not_found" : "error");
           return;
         }
-        console.log(data)
-        const match = data.data.find(row => row.user === productKey);
-        if (!match) {
-          setStatus("not_found");
-          return;
-        }
-        // Format the balance as currency
-        const value = parseFloat(match.balance);
+        const value = parseFloat(data.balance);
         if (isNaN(value)) {
           setStatus("error");
           return;
@@ -85,7 +70,7 @@ export function BalanceCard({ productKey }: { productKey: string }) {
         <>
           <div className="text-3xl font-bold mb-1 text-white/40">—</div>
           <div className="text-xs text-white/55 leading-relaxed">
-            Rig spinning up. Your balance will appear here once your first cycle completes.
+            Rig spinning up. Your balance will appear once your first cycle completes.
           </div>
         </>
       )}
