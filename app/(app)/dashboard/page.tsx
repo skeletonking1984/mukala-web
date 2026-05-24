@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase-server";
 import Link from "next/link";
+import { BalanceCard } from "@/components/ui/balance-card";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -17,23 +18,10 @@ export default async function DashboardPage() {
 
   const hasActive = !!sub;
   const tier = sub?.tier as "standard" | "apex" | undefined;
-  const lockEnds =  new Date(2027, 3, 1);
+  const lockEnds = new Date(2027, 3, 1);
   const daysLeft = lockEnds
     ? Math.max(0, Math.ceil((lockEnds.getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
     : null;
-
-
-  //API call here
-  const pk = sub?.product_key;
-  useEffect(() => {
-  fetch("https://mukalatech.com/api.php?action=getBalance")
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        setProfiles(data.data);
-      }
-    });
-  }, []);
 
   if (!hasActive) {
     return (
@@ -61,10 +49,10 @@ export default async function DashboardPage() {
       <div className="mb-10 flex items-center justify-between flex-wrap gap-4">
         <div>
           <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-operator mb-2">
-            Active Tier
+            Active Tier ({sub.product_key})
           </div>
           <h1 className="text-4xl font-bold tracking-tight">
-            {tier === "apex" ? "Apex" : "Standard"} prowl (PK = {pk})
+            {tier === "apex" ? "Apex" : "Standard"} prowl
           </h1>
         </div>
         <div className="text-right">
@@ -81,15 +69,9 @@ export default async function DashboardPage() {
       {/* Stats grid */}
       <div className="grid md:grid-cols-3 gap-4 mb-10">
         return (
-          <div>
-            {profiles.map(p => (
-              <StatCard
-                key={p.user}
-                value={p.balance}
-                sub={p.profile_data}
-              />
-            ))}
-          </div>
+        <div>
+          {sub?.product_key && <BalanceCard productKey={sub.product_key} />}
+        </div>
         );
         <StatCard label="Chains active" value={tier === "apex" ? "40+" : "20+"} sub="Live and prowling" />
         <StatCard label="This week" value="—" sub="Report drops Monday" />
