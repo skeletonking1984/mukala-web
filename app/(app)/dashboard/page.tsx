@@ -68,11 +68,11 @@ export default async function DashboardPage() {
 
       {/* Stats grid */}
       <div className="grid md:grid-cols-3 gap-4 mb-10">
-        return (
-        <div>
-          {sub?.product_key && <BalanceCard productKey={sub.product_key} />}
-        </div>
-        );
+        {sub?.product_key ? (
+          <BalanceCard productKey={sub.product_key} />
+        ) : (
+          <StatCard label="Total earned" value="—" sub="Awaiting first cycle" />
+        )}
         <StatCard label="Chains active" value={tier === "apex" ? "40+" : "20+"} sub="Live and prowling" />
         <StatCard label="This week" value="—" sub="Report drops Monday" />
       </div>
