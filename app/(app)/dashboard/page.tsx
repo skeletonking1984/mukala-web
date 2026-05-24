@@ -17,7 +17,7 @@ export default async function DashboardPage() {
 
   const hasActive = !!sub;
   const tier = sub?.tier as "standard" | "apex" | undefined;
-  const lockEnds = sub?.lock_ends_at ? new Date(sub.lock_ends_at) : null;
+  const lockEnds =  new Date(2027, 3, 1);
   const daysLeft = lockEnds
     ? Math.max(0, Math.ceil((lockEnds.getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
     : null;
