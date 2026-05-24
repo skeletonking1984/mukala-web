@@ -2,7 +2,12 @@
 
 import { useEffect, useState } from "react";
 
-type Status = "loading" | "ready" | "error";
+type Status = "loading" | "ready" | "not_found" | "error";
+
+type BalanceResponse = {
+  success: boolean;
+  data: Array<{ user: string; balance: string }>;
+};
 
 export function BalanceCard({ productKey }: { productKey: string }) {
   const [balance, setBalance] = useState<string>("—");
@@ -11,20 +16,40 @@ export function BalanceCard({ productKey }: { productKey: string }) {
   useEffect(() => {
     let cancelled = false;
 
-    fetch(`https://mukalatech.com/api.php?action=getBalance&product_key=${encodeURIComponent(productKey)}`)
+    fetch(`https://mukalatech.com/api/php?action=getBalance`)
       .then(res => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
+        return res.json() as Promise<BalanceResponse>;
       })
       .then(data => {
         if (cancelled) return;
-        setBalance(data.balance ?? "—");
+        if (!data.success || !Array.isArray(data.data)) {
+          setStatus("error");
+          return;
+        }
+        console.log(data)
+        const match = data.data.find(row => row.user === productKey);
+        if (!match) {
+          setStatus("not_found");
+          return;
+        }
+        // Format the balance as currency
+        const value = parseFloat(match.balance);
+        if (isNaN(value)) {
+          setStatus("error");
+          return;
+        }
+        setBalance(
+          new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+          }).format(value)
+        );
         setStatus("ready");
       })
-      .catch((ex) => {
+      .catch(() => {
         if (cancelled) return;
         setStatus("error");
-        console.log(ex);
       });
 
     return () => { cancelled = true; };
@@ -56,6 +81,15 @@ export function BalanceCard({ productKey }: { productKey: string }) {
         </>
       )}
 
+      {status === "not_found" && (
+        <>
+          <div className="text-3xl font-bold mb-1 text-white/40">—</div>
+          <div className="text-xs text-white/55 leading-relaxed">
+            Rig spinning up. Your balance will appear here once your first cycle completes.
+          </div>
+        </>
+      )}
+
       {status === "error" && (
         <>
           <div className="text-3xl font-bold mb-1 text-white/40">—</div>
@@ -72,16 +106,19 @@ function StatusDot({ status }: { status: Status }) {
   const color =
     status === "ready" ? "bg-operator" :
     status === "error" ? "bg-red-400" :
+    status === "not_found" ? "bg-gold" :
     "bg-white/30";
 
   const shadow =
     status === "ready" ? "0 0 12px #22D3EE" :
     status === "error" ? "0 0 12px rgb(248,113,113)" :
+    status === "not_found" ? "0 0 12px #E0A93C" :
     "none";
 
   const label =
     status === "ready" ? "Connected" :
     status === "error" ? "Offline" :
+    status === "not_found" ? "Pending" :
     "Connecting";
 
   return (
