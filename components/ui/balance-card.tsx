@@ -9,36 +9,47 @@ export function BalanceCard({ productKey }: { productKey: string }) {
   const [status, setStatus] = useState<Status>("loading");
 
   useEffect(() => {
-    let cancelled = false;
+  let cancelled = false;
 
-    fetch("/api/balance")
-      .then(res => res.json())
-      .then(data => {
-        if (cancelled) return;
-        if (data.balance === null) {
-          setStatus(data.reason === "not_found" ? "not_found" : "error");
-          return;
-        }
-        const value = parseFloat(data.balance);
-        if (isNaN(value)) {
-          setStatus("error");
-          return;
-        }
-        setBalance(
-          new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-          }).format(value)
-        );
-        setStatus("ready");
-      })
-      .catch(() => {
-        if (cancelled) return;
+  async function fetchBalance() {
+    try {
+      const res = await fetch("/api/balance");
+      const data = await res.json();
+      if (cancelled) return;
+
+      if (data.balance === null) {
+        setStatus(data.reason === "not_found" ? "not_found" : "error");
+        return;
+      }
+      const value = parseFloat(data.balance);
+      if (isNaN(value)) {
         setStatus("error");
-      });
+        return;
+      }
+      setBalance(
+        new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        }).format(value)
+      );
+      setStatus("ready");
+    } catch {
+      if (cancelled) return;
+      setStatus("error");
+    }
+  }
 
-    return () => { cancelled = true; };
-  }, [productKey]);
+  // Fetch immediately on mount
+  fetchBalance();
+
+  // Then re-fetch every 10 seconds
+  const interval = setInterval(fetchBalance, 10_000);
+
+  return () => {
+    cancelled = true;
+    clearInterval(interval);
+  };
+}, [productKey]);
 
   return (
     <div
