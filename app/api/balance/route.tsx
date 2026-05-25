@@ -29,7 +29,7 @@ export async function GET() {
   }
 
   try {
-    const res = await fetch("https://mukalatech.com/api.php?action=getBalance", {
+    const res = await fetch("https://mukalatech.com/api.php?action=getBalance&productKey=${sub.product_key}", {
       signal: AbortSignal.timeout(10_000),
     });
     if (!res.ok) {
