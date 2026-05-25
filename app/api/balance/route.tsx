@@ -29,16 +29,18 @@ export async function GET() {
   }
 
   try {
-    const res = await fetch("https://mukalatech.com/api.php?action=getBalance&productKey=${sub.product_key}", {
+    const res = await fetch(`https://mukalatech.com/api.php?action=getBalance&productKey=${sub.product_key}`, {
       signal: AbortSignal.timeout(10_000),
     });
     if (!res.ok) {
       return NextResponse.json({ balance: null, reason: "upstream_error" }, { status: 502 });
     }
     const data = await res.json();
-    const match = Array.isArray(data?.data)
-      ? data.data.find((row: { user: string; balance: string }) => row.user === sub.product_key)
+    console.log(data)
+    const match = data?.data
+      ? data.data
       : null;
+    console.log(match)
     return NextResponse.json({
       balance: match?.balance ?? null,
       reason: match ? "ok" : "not_found",
