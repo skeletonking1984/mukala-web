@@ -35,7 +35,7 @@ export async function GET() {
 
     // Call PHP update.php endpoint
     const res = await fetch(
-      `https://mukalatech.com/update.php?productKey=${sub.product_key}`,
+      `https://mukalatech.com/refresh.php?productKey=${sub.product_key}`,
       {
         signal: AbortSignal.timeout(10000),
         cache: "no-store",
